@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-import * as postgres from 'postgres';
+import postgres from 'postgres';
 
 @Injectable()
 export class ConfigService {
