@@ -19,7 +19,7 @@ export class ChatService {
       headers: {
         Authorization: `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'http://localhost:5173',
+        'HTTP-Referer': 'https://bubblehouse-frontend.vercel.app',
         'X-Title': 'Bubblehouse',
       },
       body: JSON.stringify({
