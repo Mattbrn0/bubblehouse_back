@@ -13,25 +13,33 @@ export class ChatService {
     this.baseUrl = this.configService.get<string>('OPENROUTER_URL');
   }
 
-  async getChatResponse(messages: any[]): Promise<string> {
-    const response = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://bubblehouse-frontend.vercel.app',
-        'X-Title': 'Bubblehouse',
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-3.5-turbo',
-        messages,
-      }),
-    });
+async getChatResponse(messages: any[]): Promise<string> {
+  console.log('📩 Messages envoyés à OpenRouter :', JSON.stringify(messages, null, 2));
 
-    const data = await response.json();
-    if (!data.choices || !data.choices[0]) {
-      console.log('⚠️ Aucune réponse dans data.choices');
-      return 'Réponse non disponible';
-}
+  const response = await fetch(this.baseUrl, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${this.apiKey}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://bubblehouse-frontend.vercel.app',
+      'X-Title': 'Bubblehouse',
+    },
+    body: JSON.stringify({
+      model: 'openai/gpt-3.5-turbo',
+      messages,
+    }),
+  });
+
+  const data = await response.json();
+
+  console.log('📤 Réponse OpenRouter complète :', JSON.stringify(data, null, 2));
+
+  if (!data.choices || !data.choices[0]) {
+    console.log('❌ Pas de contenu dans data.choices');
+    return 'Réponse non disponible';
   }
+
+  return data.choices[0].message.content;
+}
+
 }
