@@ -29,7 +29,9 @@ export class ChatService {
     });
 
     const data = await response.json();
-    console.log('Réponse OpenRouter :', JSON.stringify(data, null, 2));
-    return data.choices?.[0]?.message?.content || 'Réponse non disponible';
+    if (!data.choices || !data.choices[0]) {
+      console.log('⚠️ Aucune réponse dans data.choices');
+      return 'Réponse non disponible';
+}
   }
 }
